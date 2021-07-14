@@ -20,7 +20,7 @@ namespace IPMonitor.Service.Services
                 {
                     strLogFilePath = AppDomain.CurrentDomain.BaseDirectory + "\\IPMonitorErrorLog.txt";
                 }
-                string strLogEntry = string.Format("IP Monitor encountered an error. See the details below.{0}Message:{1}{2}Stack Trace:{3}{4}", Environment.NewLine, Environment.NewLine, ex.Message, Environment.NewLine, Environment.NewLine, ex.StackTrace);
+                string strLogEntry = string.Format("{6}: IP Monitor encountered an error. See the details below.{0}Message:{1}{2}{3}Stack Trace:{4}{5}", Environment.NewLine, Environment.NewLine, ex.Message, Environment.NewLine, Environment.NewLine, ex.StackTrace, DateTime.Now.ToString());
                 File.WriteAllText(strLogFilePath, strLogEntry);
             }
             catch (Exception err)
@@ -31,8 +31,20 @@ namespace IPMonitor.Service.Services
 
         public static void WriteErrorToEventLog(Exception ex)
         {
-            EventLog eventLog = new EventLog("IPMonitor");
-            eventLog.WriteEntry(string.Format("IP Monitor encountered an error. See the details below.{0}Message:{1}{2}Stack Trace:{3}{4}", Environment.NewLine, Environment.NewLine, ex.Message, Environment.NewLine, Environment.NewLine, ex.StackTrace), EventLogEntryType.Error);
+            try
+            {
+                if (!EventLog.SourceExists("Application"))
+                {
+                    EventLog.CreateEventSource("Application", "IPMonitor");
+                }
+                EventLog eventLog = new EventLog();
+                eventLog.Source = "Application";
+                eventLog.WriteEntry(string.Format("{6}: IP Monitor encountered an error. See the details below.{0}Message:{1}{2}{3}Stack Trace:{4}{5}", Environment.NewLine, Environment.NewLine, ex.Message, Environment.NewLine, Environment.NewLine, ex.StackTrace, DateTime.Now.ToString()), EventLogEntryType.Error);
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
         }
     }
 }

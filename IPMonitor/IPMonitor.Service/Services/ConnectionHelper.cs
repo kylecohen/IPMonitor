@@ -23,7 +23,7 @@ namespace IPMonitor.Service.Services
                 WebClient webClient = new WebClient();
                 UTF8Encoding utf8 = new UTF8Encoding();
                 string strHostName = Dns.GetHostName();
-                string strVerifiedIpAddress = utf8.GetString(webClient.DownloadData("http://whatismyip.com/automation/n09230945.asp"));
+                string strVerifiedIpAddress = utf8.GetString(webClient.DownloadData("https://api.ipify.org"));
                 if (string.IsNullOrEmpty(strVerifiedIpAddress))
                 {
                     throw new Exception("Could not obtain IP address");

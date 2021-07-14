@@ -25,8 +25,7 @@ namespace IPMonitor.Service
             _mIntervalTimer.Elapsed += Timer_Elapsed;
             ValidateIPAddress(ConnectionHelper.GetExternalIpAddress());
             SetupTimer(_mIntervalTimer);
-            EventLog eventLog = new EventLog("IPMonitor");
-            eventLog.WriteEntry("IP Monitor started successfully...");
+            EventLog.WriteEntry("IP Monitor started successfully...");
         }
 
         private void SetupTimer(System.Timers.Timer timer)
@@ -78,7 +77,8 @@ namespace IPMonitor.Service
                 else if (strFileIpAddress != ipAddress)
                 {
                     File.WriteAllText(strIpAddressFilePath, ipAddress);
-                    throw new Exception("The external IP Address has changed!");
+
+                    MessageBox.Show(string.Format("The external IP Address has changed to \"{0}\".", ipAddress), "IP Address Changed", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
                 }
             }
             catch (Exception err)
@@ -94,7 +94,7 @@ namespace IPMonitor.Service
 
         private void IPMonitorNotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            MessageBox.Show(string.Format("External IP Address: {0}", ConnectionHelper.GetExternalIpAddress()));
+            MessageBox.Show(string.Format("External IP Address: {0}", ConnectionHelper.GetExternalIpAddress()), "IP Address Changed", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
         }
     }
 }

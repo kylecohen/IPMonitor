@@ -34,12 +34,14 @@ namespace IPMonitor.Service
             // 
             // IPMonitorProcessInstaller
             // 
+            this.IPMonitorProcessInstaller.Account = System.ServiceProcess.ServiceAccount.LocalService;
             this.IPMonitorProcessInstaller.Password = null;
             this.IPMonitorProcessInstaller.Username = null;
             // 
             // IPMonitorInstaller
             // 
             this.IPMonitorInstaller.ServiceName = "IPMonitor";
+            this.IPMonitorInstaller.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller
             // 
