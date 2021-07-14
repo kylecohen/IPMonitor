@@ -29,6 +29,17 @@ namespace IPMonitor.Service
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IPMonitor));
+            this.IPMonitorNotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            // 
+            // IPMonitorNotifyIcon
+            // 
+            this.IPMonitorNotifyIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.IPMonitorNotifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("IPMonitorNotifyIcon.Icon")));
+            this.IPMonitorNotifyIcon.Text = "IP Monitor";
+            this.IPMonitorNotifyIcon.Visible = true;
+            this.IPMonitorNotifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.IPMonitorNotifyIcon_MouseDoubleClick);
             // 
             // IPMonitor
             // 
@@ -37,5 +48,7 @@ namespace IPMonitor.Service
         }
 
         #endregion
+
+        private System.Windows.Forms.NotifyIcon IPMonitorNotifyIcon;
     }
 }
